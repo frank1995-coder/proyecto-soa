@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://hospital.edu/servicios/pacientes"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://hospital.edu/servicios/pacientes"
+             name="ServicioPacientes">
+
+  <types>
+    <xsd:schema targetNamespace="http://hospital.edu/servicios/pacientes">
+      <xsd:element name="obtenerPacienteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="idPaciente" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="obtenerPacienteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="idPaciente" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="nombre" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="apellido" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="fechaNacimiento" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="estado" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="codigoError" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="mensajeError" type="xsd:string" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="obtenerPacienteInput">
+    <part name="parameters" element="tns:obtenerPacienteRequest"/>
+  </message>
+  <message name="obtenerPacienteOutput">
+    <part name="parameters" element="tns:obtenerPacienteResponse"/>
+  </message>
+
+  <portType name="PacientesPortType">
+    <operation name="obtenerPaciente">
+      <input message="tns:obtenerPacienteInput"/>
+      <output message="tns:obtenerPacienteOutput"/>
+    </operation>
+  </portType>
+
+  <binding name="PacientesBinding" type="tns:PacientesPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="obtenerPaciente">
+      <soap:operation soapAction="http://hospital.edu/servicios/pacientes/obtenerPaciente"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+  </binding>
+
+  <service name="ServicioPacientes">
+    <port name="PacientesPort" binding="tns:PacientesBinding">
+      <soap:address location="http://localhost:4002/pacientes"/>
+    </port>
+  </service>
+</definitions>
